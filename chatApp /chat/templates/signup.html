@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% block title %}Signup{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f7f7f7;
+    }
+    form {
+        width: 350px;
+        margin: 20px auto;
+        padding: 25px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    }
+    .greet-message {
+        text-align: center;
+        font-size: 20px;
+        margin-top: 40px;
+    }
+    .errorlist {
+        color: red;
+        list-style-type: none;
+        padding: 0;
+        margin-bottom: 15px;
+    }
+    label {
+        font-weight: bold;
+        display: block;
+        margin-top: 15px;
+    }
+    input[type="text"], input[type="password"], select {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+    input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        margin-top: 20px;
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+    .login-link {
+        text-align: center;
+        margin-top: 15px;
+    }
+    .login-link a {
+        color: #007BFF;
+        text-decoration: none;
+    }
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="greet-message">
+    🎉 Welcome to the Chat Application! Create an account to get started.
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    {% if messages %}
+    <ul class="errorlist">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username">
+
+    <label for="password">Password:</label>
+    <input type="password" id="password1" name="password1">
+
+    <label for="password2">Confirm Password again:</label>
+    <input type="password" id="password2" name="password2">
+
+    <label for="rate_plan">Choose a plan:</label>
+    <select name="rate_plan" id="rate_plan">
+        <option value="basic">Basic</option>
+        <option value="pro">Pro</option>
+    </select>
+
+    <input type="submit" value="Signup">
+
+    <div class="login-link">
+        Already have an account? <a href="{% url 'login' %}">Login here</a>
+    </div>
+</form>
+{% endblock %}

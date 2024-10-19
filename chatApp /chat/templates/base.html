@@ -1,0 +1,169 @@
+ <!DOCTYPE html>
+<html>
+
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background-color: #333;
+            padding: 1em;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        #content {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .user-info {
+            font-weight: bold;
+        }
+
+        .username-highlight {
+            color: white;  /* White text for contrast */
+            background-color: #007bff;  /* Blue background */
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 1.2em;
+        }
+
+        .rate-plan {
+            font-style: italic;
+            margin-left: 10px;
+        }
+
+        #friend-select {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .button-link {
+            display: inline-block;
+            padding: 8px 12px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .button-link:hover {
+            background-color: #0056b3;
+        }
+
+        .greet-message {
+            color: #ff6347; /* Tomato color for an engaging look */
+            font-size: 1.1em;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .sub-greet-message {
+            color: #555;
+            font-size: 0.9em;
+            display: block;
+            margin-top: 5px;
+        }
+
+        .auth-buttons {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .auth-buttons .button-link {
+            margin: 5px;
+            padding: 10px 15px;
+            font-size: 1em;
+            background-color: #28a745; /* Green for Signup */
+            transition: background-color 0.3s ease;
+        }
+
+        .auth-buttons .button-link:nth-child(1) {
+            background-color: #007bff; /* Blue for Login */
+        }
+
+        .auth-buttons .button-link:hover {
+            filter: brightness(1.2);
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="user-info">
+            {% if user.is_authenticated %}
+                <span class="username-highlight">Hello, {{ user }}! 👋</span>
+                <span class="rate-plan"> You have {{ user.rate_plan }} plan.</span>
+            {% else %}
+                <div class="greet-message">
+                    {% comment %} <span>Welcome to our Chat Application! 🌟</span> {% endcomment %}
+                    <br>
+                    {% comment %} <span class="sub-greet-message">Connect with friends, join group discussions, and make new connections. Login or sign up now to join the conversation!</span> {% endcomment %}
+                </div>
+                {% comment %} <div class="auth-buttons">
+                    <a href="{% url 'login' %}" class="button-link">Login</a>
+                    <a href="{% url 'signup' %}" class="button-link">Signup</a>
+                </div> {% endcomment %}
+            {% endif %}
+        </div>
+
+        <div>
+            {% if user.is_authenticated %}
+                {% if request.path != '/' and request.path != '/home/' %}
+                    <a href="{% url 'home' %}">Home</a>
+                {% endif %}
+                <a href="{% url 'logout' %}" class="button-link">Logout</a>
+                
+                {% if user.rate_plan == 'pro' %}
+                    <a href="{% url 'create_chat_room' %}" class="button-link">Create Chat Room</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </nav>
+
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#friend-select').select2({
+                placeholder: "Select a friend to chat with",
+                allowClear: true
+            });
+        });
+    </script>
+</body>
+
+</html>
+
+ 
