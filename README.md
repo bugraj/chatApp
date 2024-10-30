@@ -1,1 +1,1 @@
-Chat app using Django 
+A Real-Time Chat Application built with Django Channels, WebSocket, and HTML, supporting individual and group chats with a subscription model. Basic users have limited access (1-hour chat history) and can only join group chats, while Pro users can create groups and see full chat history. The app includes media support (emojis, GIFs) and a scalable PostgreSQL backend for efficient data management. This project delivers seamless, interactive communication with a responsive, React-based UI.
